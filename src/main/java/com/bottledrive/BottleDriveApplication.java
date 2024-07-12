@@ -1,4 +1,4 @@
-package com.bottledrive.bottle_drive;
+package com.bottledrive;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
