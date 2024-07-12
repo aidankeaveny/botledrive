@@ -1,23 +1,22 @@
 package com.bottledrive.model;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 @Entity
+@Table(name = "BOTTLE")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Bottle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "number_of_bottles")
     private int numberOfBottles;
+
+    @Column(name = "picked_up")
     private boolean pickedUp;
 }

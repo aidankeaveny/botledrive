@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BottleService {
@@ -17,7 +18,7 @@ public class BottleService {
         return bottleRepository.findAll();
     }
 
-    public Bottle saveBottle(Bottle bottle) {
+    public Bottle addBottle(Bottle bottle) {
         return bottleRepository.save(bottle);
     }
 
@@ -25,7 +26,16 @@ public class BottleService {
         bottleRepository.deleteById(id);
     }
 
-    public Bottle updateBottle(Bottle bottle) {
-        return bottleRepository.save(bottle);
+    public Bottle updateBottle(Long id, Bottle updatedBottle) {
+        Optional<Bottle> optionalBottle = bottleRepository.findById(id);
+        if (optionalBottle.isPresent()) {
+            Bottle existingBottle = optionalBottle.get();
+            existingBottle.setAddress(updatedBottle.getAddress());
+            existingBottle.setNumberOfBottles(updatedBottle.getNumberOfBottles());
+            // Set other properties as needed
+            return bottleRepository.save(existingBottle);
+        } else {
+            throw new RuntimeException("Bottle not found with id: " + id);
+        }
     }
 }

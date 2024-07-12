@@ -1,33 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { getBottles, deleteBottle } from '../api';
+import { getBottles } from '../api';
 
-const BottleList = () => {
-    const [bottles, setBottles] = useState([]);
+function BottleList() {
+  const [bottles, setBottles] = useState([]);
 
-    useEffect(() => {
-        const fetchBottles = async () => {
-            const response = await getBottles();
-            setBottles(response.data);
-        };
+  useEffect(() => {
+    fetchBottles();
+  }, []);
 
-        fetchBottles();
-    }, []);
+  const fetchBottles = async () => {
+    try {
+      const response = await getBottles();
+      setBottles(response.data);
+    } catch (error) {
+      console.error('Error fetching bottles:', error);
+    }
+  };
 
-    const handleDelete = async (id) => {
-        await deleteBottle(id);
-        setBottles(bottles.filter(bottle => bottle.id !== id));
-    };
-
-    return (
-        <ul>
-            {bottles.map(bottle => (
-                <li key={bottle.id}>
-                    {bottle.address} - {bottle.numberOfBottles} bottles
-                    <button onClick={() => handleDelete(bottle.id)}>Delete</button>
-                </li>
-            ))}
-        </ul>
-    );
-};
+  return (
+    <div>
+      <h2>Bottle List</h2>
+      <ul>
+        {bottles.map((bottle) => (
+          <li key={bottle.id}>
+            {bottle.address} - {bottle.numberOfBottles} bottle(s)
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default BottleList;
